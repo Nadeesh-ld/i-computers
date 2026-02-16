@@ -5,4 +5,5 @@ const userRouter = express.Router();
 
 userRouter.post("/", createuser);
 userRouter.post("/login", loginUser);
+// userRouter.get("/search",()=>{
 export default userRouter;
