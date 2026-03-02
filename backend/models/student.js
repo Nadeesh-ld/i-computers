@@ -1,4 +1,4 @@
-//to hadle scemema structure for understand mongoose
+ //to hadle scemema structure for understand mongoose
 import mongoose from "mongoose"
 
 const studentSchema=new mongoose.Schema(

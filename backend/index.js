@@ -10,7 +10,7 @@ import authenticateUser from "./middlewares/authentication.js";
 const app = express();
 
 const mongodbURI =
-  "mongodb+srv://admin:12345678mnop@cluster0.310gj68.mongodb.net/icoumputers?appName=Cluster0";
+  "mongodb+srv://admin:12345678mn@cluster0.oq3lq37.mongodb.net/?appName=Cluster0";
 
 /* MongoDB connection */
 mongoose.connect(mongodbURI)
@@ -30,8 +30,8 @@ app.use(authenticateUser)
 
 /* Routes */
 app.use("/students", studentRouter);
-app.use("/users", userRouter); // Added user route
-app.use("/products", productRouter); // Added product route
+app.use("/users", userRouter); 
+app.use("/products", productRouter); 
 
 /* Server */
 app.listen(3000, () => {

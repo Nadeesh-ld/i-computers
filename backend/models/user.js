@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     email:{
         type:String,
-        // must satisfy these two conditions
         required:true,
         //same email should not be used twice make email primary key
         unique:true
