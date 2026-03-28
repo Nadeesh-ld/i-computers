@@ -1,7 +1,9 @@
 import User from '../models/user.js';
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken" 
+import dotenv from "dotenv";
 
+dotenv.config();
 export async function createuser(req, res) {
     try {
         const passwordHash= bcrypt.hashSync(req.body.password,10)
@@ -51,9 +53,10 @@ export async function loginUser(req, res) {
 
 
                 }
-                const token=jwt.sign(payload,"i-computers")
+                const token=jwt.sign(payload,process.env.JWT_SECRET)
                 res.json({
                     token:token,
+                    role :user.isAdmin ? "admin" : "user",
                 })
             }
             else{

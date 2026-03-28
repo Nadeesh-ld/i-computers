@@ -5,12 +5,14 @@ import userRouter from "./routers/userRouter.js";
 import productRouter from "./routers/productRouter.js";
 import jwt from "jsonwebtoken"
 import authenticateUser from "./middlewares/authentication.js";
+import cors from "cors";
+import dotenv from "dotenv";
 
-
+dotenv.config();
 const app = express();
 
 const mongodbURI =
-  "mongodb+srv://admin:12345678mn@cluster0.oq3lq37.mongodb.net/?appName=Cluster0";
+  process.env.MONGO_URI;
 
 /* MongoDB connection */
 mongoose.connect(mongodbURI)
@@ -22,6 +24,7 @@ mongoose.connect(mongodbURI)
     });
 
 /* Middleware */
+app.use(cors())
 app.use(express.json())
 
 // Logging middleware
@@ -29,9 +32,9 @@ app.use(authenticateUser)
 
 
 /* Routes */
-app.use("/students", studentRouter);
-app.use("/users", userRouter); 
-app.use("/products", productRouter); 
+app.use("api/students", studentRouter);
+app.use("api/users", userRouter); 
+app.use("api/products", productRouter); 
 
 /* Server */
 app.listen(3000, () => {
