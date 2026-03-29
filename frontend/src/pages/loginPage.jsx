@@ -1,12 +1,14 @@
-import { Route,Routes,Link } from "react-router-dom";
+import { Route,Routes,Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 
 
 export default function LoginPage() {
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
+    const navigate = useNavigate();
 
     function handleLogin() {
         console.log("Email:", email);
@@ -14,10 +16,19 @@ export default function LoginPage() {
         axios.post(import.meta.env.VITE_API_URL+"/users/login", { email: email, password: password })
         .then((response) => {
             console.log("Login successful:", response.data);
+            localStorage.setItem("token", response.data.token);
+            toast.success("Login successful");
+            if(response.data.role === "admin"){
+                navigate("/admin");
+            }else{
+                navigate("/");
+            }
             // Handle successful login, such as storing the token and redirecting
         })
         .catch((error) => {
+            alert( error.response.data.message);
             console.error("Login failed:", error);
+            toast.error(error.response.data.message || "Login failed");
             // Handle login failure, such as showing an error message
         }); 
     

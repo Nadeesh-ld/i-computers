@@ -1,4 +1,6 @@
 import { Route,Routes,Link } from "react-router-dom";
+import AdminProductPage from "./admin/adminProductpage";
+import AdminAddProductPage from "./admin/adminAddProduct";
 
 
 
@@ -9,6 +11,7 @@ export default function AdminPage() {
                
             <Link to="/admin" className="block w-full h-[50px] text-center leading-[50px] border-b-[1px] border-gray-400">Dashoard</Link>
                 <Link to="/admin/products" className="block py-2 px-4 hover:bg-gray-200 ">Products</Link>
+                <Link to="/admin/add-product" className="block py-2 px-4 hover:bg-gray-200 ">Add Product</Link>
                 <Link to="/admin/orders" className="block py-2 px-4 hover:bg-gray-200 ">Orders</Link>
                 <Link to="/admin/users" className="block py-2 px-4 hover:bg-gray-200 ">Users</Link>
                 <Link to="/admin/reviews" className="block py-2 px-4 hover:bg-gray-200 ">Reviews</Link>
@@ -17,7 +20,8 @@ export default function AdminPage() {
                 <div className="w-[calc(100%-300px)] h-full bg-primary rounded-2xl">
                     <Routes>  
                         <Route path="/" element={<h1>Admin Dashboard</h1>} />  
-                         <Route path="/products" element={<h1>product Dashboard</h1>} />
+                         <Route path="/products" element={<AdminProductPage />} />
+                         <Route path="/add-product" element={<AdminAddProductPage />} />
                         <Route path="/orders" element={<h1>order Dashboard</h1>} />
                         <Route path="/users" element={<h1>user Dashboard</h1>} />  
                         <Route  path="/reviews" element={<h1>review Dashboard</h1>} />

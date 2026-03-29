@@ -32,9 +32,9 @@ app.use(authenticateUser)
 
 
 /* Routes */
-app.use("api/students", studentRouter);
-app.use("api/users", userRouter); 
-app.use("api/products", productRouter); 
+app.use("/api/students", studentRouter);
+app.use("/api/users", userRouter); 
+app.use("/api/products", productRouter); 
 
 /* Server */
 app.listen(3000, () => {

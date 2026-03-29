@@ -6,25 +6,45 @@ import dotenv from "dotenv";
 dotenv.config();
 export async function createuser(req, res) {
     try {
-        const passwordHash= bcrypt.hashSync(req.body.password,10)
-        
+        // Validate required fields
+        if (!req.body.email || !req.body.firstname || !req.body.lastname || !req.body.password) {
+            return res.status(400).json({ 
+                message: 'Please provide email, firstname, lastname, and password' 
+            });
+        }
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email: req.body.email });
+        if (existingUser) {
+            return res.status(400).json({ 
+                message: 'User with this email already exists' 
+            });
+        }
+
+        const passwordHash = bcrypt.hashSync(req.body.password, 10);
 
         const newUser = new User({
             email: req.body.email,
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             password: passwordHash
-           
-        })
+        });
+        
         await newUser.save();
-        res.json({ 
-            message: 'User created successfully' 
-
+        return res.status(201).json({ 
+            message: 'User created successfully',
+            user: {
+                email: newUser.email,
+                firstname: newUser.firstname,
+                lastname: newUser.lastname
+            }
         });
     } catch (error) {
-        res.json({ message: 'Error creating user', error: error.message
-
-         });
+        console.error("Error creating user:", error);
+        return res.status(500).json({ 
+            message: 'Error creating user', 
+            error: error.message
+        });
     }
 }
 
@@ -34,10 +54,9 @@ export async function loginUser(req, res) {
             email: req.body.email
         });
         if(user==null){
-             res.status(404).json
-             ({
+             return res.status(404).json({
                  message: 'User not found' 
-                })
+                });
         }
         else{
             const isPasswordCorrect=bcrypt.compareSync(req.body.password,user.password)
@@ -54,10 +73,10 @@ export async function loginUser(req, res) {
 
                 }
                 const token=jwt.sign(payload,process.env.JWT_SECRET)
-                res.json({
+                return res.status(200).json({
                     token:token,
                     role :user.isAdmin ? "admin" : "user",
-                })
+                });
             }
             else{
                 res.status(401).json({ 
