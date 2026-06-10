@@ -1,15 +1,16 @@
 import { Route,Routes,Link } from "react-router-dom";
-import AdminProductPage from "./admin/adminProductpage";
+import AdminProductPage from "./admin/adminProductPage";
 import AdminAddProductPage from "./admin/adminAddProduct";
+import AdminEditProductPage from "./admin/adminEditProductPage";
 
 
 
 export default function AdminPage() {  
     return (
-        <div className="w-full h-screen flex items-center border-[10px] border-red-300"> 
-            <div className="w-[300px] h-full bg-red-300">
+        <div className="w-full h-screen flex items-center border-10 border-red-300"> 
+            <div className="w-75 h-full bg-red-300">
                
-            <Link to="/admin" className="block w-full h-[50px] text-center leading-[50px] border-b-[1px] border-gray-400">Dashoard</Link>
+            <Link to="/admin" className="block w-full h-12.5 text-center leading-[50px] border-b border-gray-400">Dashoard</Link>
                 <Link to="/admin/products" className="block py-2 px-4 hover:bg-gray-200 ">Products</Link>
                 <Link to="/admin/add-product" className="block py-2 px-4 hover:bg-gray-200 ">Add Product</Link>
                 <Link to="/admin/orders" className="block py-2 px-4 hover:bg-gray-200 ">Orders</Link>

@@ -41,12 +41,12 @@ export default function LoginPage() {
          </div>  
 
          <div className="w-1/2 h-full flex justify-center items-center">
-             <div className="w-[400px] h-[500px] backdrop-blur-lg rounded-xl flex flex-col justify-center items-center">
+             <div className="w-100 h-125 backdrop-blur-lg rounded-xl flex flex-col justify-center items-center">
                         <h1 className="text-4xl font-bold mb-8">Sign in</h1>
                 <input 
                     type="text" 
                     placeholder="email" 
-                    className="w-3/4 h-10 border-[1px] border-gray-400 rounded mt-4 px-2" 
+                    className="w-3/4 h-10 border border-gray-400 rounded mt-4 px-2" 
                     value={email}
                     onChange={(e) =>
                         console.log(e.target.value) ||
@@ -55,7 +55,7 @@ export default function LoginPage() {
                 <input 
                     type="password" 
                     placeholder="Password" 
-                    className="w-3/4 h-10 border-[1px] border-gray-400 rounded mt-4 px-2" 
+                    className="w-3/4 h-10 border border-gray-400 rounded mt-4 px-2" 
                     value={password}
                     onChange={(e) => 
                         console.log(e.target.value) ||

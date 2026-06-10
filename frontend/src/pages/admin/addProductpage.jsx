@@ -43,7 +43,7 @@ export default function AdminProductsPage(){
                     }
                 )
             } */}
-            <div className="sticky top-0 w-full h-[100px] rounded-lg bg-accent text-white flex items-center p-5 justify-between shadow-2xl">
+            <div className="sticky top-0 w-full h-25 rounded-lg bg-accent text-white flex items-center p-5 justify-between shadow-2xl">
                 <h1 className="text-2xl  font-semibold">Products</h1>                
             </div>
 
@@ -94,8 +94,10 @@ export default function AdminProductsPage(){
             </table>
 
             <Link to="/admin/add-product" 
-                className="fixed bottom-8 right-8 w-[60px] h-[60px] bg-accent flex justify-center items-center text-white text-3xl rounded-full shadow-2xl hover:bg-black hover:text-accent">
+                className="fixed bottom-8 right-8 w-15 h-15 bg-accent flex justify-center items-center text-white text-3xl rounded-full shadow-2xl hover:bg-black hover:text-accent">
                 <FaPlus />
             </Link>
         </div>
     )
+}
+    

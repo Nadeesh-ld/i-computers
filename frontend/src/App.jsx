@@ -1,36 +1,25 @@
-
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import AdminPage from './pages/adminPage'
-import AdminProductPage from './pages/admin/adminProductpage'
-import Homepage from './pages/homepage'
-import LoginPage from './pages/loginPage' 
-import Testpage from './pages/test'
-import TrendingProducts from './components/trendingProducts'
-import { Route, Routes } from 'react-router-dom'
-import { Toaster } from 'react-hot-toast';
+import HomePage from './pages/homePage'
+import TestPage from './pages/test'
+import LoginPage from './pages/loginPage'
+import { Toaster } from 'react-hot-toast'
 
-function App() {
- 
+function App() {  
 
-  return (
-  
-      <div className='w-full h-screen border-[6px] flex justify-center items-center'>
-       <Toaster position="top-right" reverseOrder={false} />
-       <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/admin/*" element={<AdminPage />} />
-        <Route path="/products" element={<AdminProductPage />} />
-        <Route path="/add-product" element={<AdminProductPage />} />  
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/test" element={<Testpage />} />
-    
-       </Routes>
-        
-         </div>
-    
-      
-   
+  return (   
+      <div className='w-full h-screen flex justify-center items-center bg-primary text-secondary'>
+        <Toaster position='top-right'/>
+        <Routes>
+          <Route path='/*' element={<HomePage />} />
+          <Route path='/admin/*' element={<AdminPage />} />
+          <Route path='/test' element={<TestPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </div> 
   )
+
 }
 
 export default App
