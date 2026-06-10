@@ -32,3 +32,5 @@ export const uploadMedia = async (file) => {
     }
   });
 };
+
+export default uploadMedia;

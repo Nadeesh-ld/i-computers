@@ -4,89 +4,87 @@ import uploadMedia from "../../utils/mediaUpload";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-export default function AdminAddProductPage() {
-      const[productId, setProductId] = useState("");
-      const[name, setName] = useState("");
-      const[altNames, setAltNames] = useState([]);
-      const[price, setPrice] = useState(0); 
-      const[labelledPrice, setLabelledPrice] = useState(0);
-      const[description, setDescription] = useState("");  
-      const[images, setImages] = useState([]);
-      const[brand, setBrand] = useState("");
-      const[model, setModel] = useState("");
-      const[category, setCategory] = useState("");      
-      const[isAvailable, setIsAvailable] = useState(true);
-      const[stock, setStock] = useState(0);
+export default function AdminAddProductPage(){
+
+    const [productId, setProductId] = useState("");
+    const [name, setName] = useState("");
+    const [altNames, setAltNames] = useState("");
+    const [price, setPrice] = useState("");
+    const [labelledPrice, setLabelledPrice] = useState("");
+    const [description, setDescription] = useState("");
+    const [images, setImages] = useState([]);
+    const [brand, setBrand] = useState("");
+    const [model, setModel] = useState("");
+    const [category, setCategory] = useState("");
+    const [isAvailable, setIsAvailable] = useState(true);
+    const [stock, setStock] = useState(0);
+    const navigate = useNavigate();
+    
+    async function handleSave(){
+
+        try{
+
+            const token = localStorage.getItem("token");
+
+            if(token == null){
+                toast.error("You must be logged in to perform this action.");
+                window.location.href = "/login";
+                return;
+            }
+
+            const mediaUploadPromises = []
+
+            for(let i=0; i<images.length; i++){
+
+                mediaUploadPromises.push(uploadMedia(images[i]));
+
+            }
+
+            const urls = await Promise.all(mediaUploadPromises);
+            const altNamesArray = altNames.split(",")
+
+            const productData = {
+                productId : productId,
+                name : name,
+                altNames : altNamesArray,
+                price : price,
+                labelledPrice : labelledPrice,
+                description : description,
+                images : urls,
+                brand : brand,
+                model : model,
+                category : category,
+                isAvailable : isAvailable,
+                stock : stock
+            }
 
 
-      
-          async function handleSave(){
-      
-              try{
-                  setIsSaving(true);
-                  const token = localStorage.getItem("token");
-      
-                  if(token == null){
-                      toast.error("You must be logged in to perform this action.");
-                      window.location.href = "/login";
-                      return;
-                  }
-      
-                  const mediaUploadPromises = []
-      
-                  for(let i=0; i<images.length; i++){
-      
-                      mediaUploadPromises.push(uploadMedia(images[i]));
-      
-                  }
-      
-                  const urls = await Promise.all(mediaUploadPromises);
-                  const altNamesArray = altNames.split(",")
-      
-                  const productData = {
-                      productId : productId,
-                      name : name,
-                      altNames : altNamesArray,
-                      price : price,
-                      labelledPrice : labelledPrice,
-                      description : description,
-                      images : urls,
-                      brand : brand,
-                      model : model,
-                      category : category,
-                      isAvailable : isAvailable,
-                      stock : stock
-                  }
-      
-      
-                  await axios.post(import.meta.env.VITE_API_URL+"/products", productData,
-                      {
-                          headers : {
-                              "Authorization" : "Bearer "+token
-                          }
-                      }
-                  )
-      
-                  toast.success("Product added successfully!");
-                  //
-                  navigate("/admin/products");
-      
-      
-              }catch(error){
-                  setIsSaving(false);
-                  console.error("Error adding product:", error);
-                  console.log("Error response data:", error?.response);
-                  toast.error(error?.response?.data?.message || "Failed to add product. Please try again.")
-              }
-          }
-      
-  
-     return(
+            await axios.post(import.meta.env.VITE_API_URL+"/products", productData,
+                {
+                    headers : {
+                        "Authorization" : "Bearer "+token
+                    }
+                }
+            )
+
+            toast.success("Product added successfully!");
+            //
+            navigate("/admin/products");
+
+
+        }catch(error){
+            console.error("Error adding product:", error);
+            console.log("Error response data:", error?.response);
+            toast.error(error?.response?.data?.message || "Failed to add product. Please try again.")
+        }
+    }
+
+    return(
         <div className="w-full h-full flex flex-col items-center p-4 overflow-y-scroll">
             <div className="sticky top-0 w-full h-[100px] rounded-lg bg-accent text-white flex items-center p-5 justify-between shadow-2xl">
                 <h1 className="text-2xl  font-semibold">Add New Product</h1>
                 <div className="h-full  flex justify-center items-center">
-                    <button onClick={handleSave} className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600" >{isSaving? "Saving..." : "Save"}</button>
+                    <button onClick={handleSave} className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600">Save</button>
                     <button className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Cancel</button>
                 </div>
             </div>

@@ -1,189 +1,101 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import { FaPlus } from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import axios from "axios";
+export default function AdminProductsPage(){
 
-export default function AdminAddProductPage() {
-  const [formData, setFormData] = useState({
-    name: "",
-    description: "",
-    price: "",
-    stock: "",
-    category: "",
-    image: null,
-  });
+    const [products , setProducts] = useState([])
+    useEffect(
+        ()=>{
+                    //backend api
+            const token = localStorage.getItem("token")
 
-  const [loading, setLoading] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      image: e.target.files[0],
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      if (!formData.name || !formData.price || !formData.stock) {
-        toast.error("Please fill in all required fields");
-        setLoading(false);
-        return;
-      }
-
-      const productData = {
-        name: formData.name,
-        description: formData.description,
-        price: parseFloat(formData.price),
-        stock: parseInt(formData.stock),
-        category: formData.category,
-      };
-
-      const response = await fetch("http://localhost:5000/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+            axios.get(import.meta.env.VITE_API_URL+"/products",{
+                headers:{
+                    "Authorization": "Bearer "+ token
+                }
+            }).then(
+                (response)=>{
+                    setProducts(response.data)
+                }
+            ).catch(
+                (error)=>{
+                    console.log(error)
+                }
+            )
         },
-        body: JSON.stringify(productData),
-      });
+        []
+    )
 
-      if (!response.ok) {
-        throw new Error("Failed to add product");
-      }
+    
 
-      toast.success("Product added successfully!");
-      
-      setFormData({
-        name: "",
-        description: "",
-        price: "",
-        stock: "",
-        category: "",
-        image: null,
-      });
-    } catch (error) {
-      console.error("Error adding product:", error);
-      toast.error("Failed to add product");
-    } finally {
-      setLoading(false);
-    }
-  };
+    return(
+        <div className="w-full h-full overflow-y-scroll p-5">
 
-  return (
-    <div className="w-full h-full p-8 overflow-auto">
-      <h1 className="text-3xl font-bold mb-6">Add New Product</h1>
+            {/* {
+                products.map(
+                    (item , index)=>{
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white rounded-lg shadow-lg p-6 max-w-md"
-      >
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Product Name *
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            placeholder="Enter product name"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            required
-          />
+                        return <p key={index}>
+                            {item.productId}
+                        </p>
+
+                    }
+                )
+            } */}
+            <div className="sticky top-0 w-full h-[100px] rounded-lg bg-accent text-white flex items-center p-5 justify-between shadow-2xl">
+                <h1 className="text-2xl  font-semibold">Products</h1>                
+            </div>
+
+            <table className="mt-5 w-full text-secondary ">
+                <thead className="bg-accent/45 text-white">
+                    <tr>
+                        <th className="text-center border border-primary p-4">Image</th>
+                        <th className="text-center border border-primary p-4">Product ID</th>
+                        <th className="text-center border border-primary p-4">Name</th>
+                        <th className="text-center border border-primary p-4">Price</th>
+                        <th className="text-center border border-primary p-4">Labelled Price</th>
+                        <th className="text-center border border-primary p-4">Brand</th>
+                        <th className="text-center border border-primary p-4">Model</th>
+                        <th className="text-center border border-primary p-4">Category</th>
+                        <th className="text-center border border-primary p-4">Availability</th>
+                        <th className="text-center border border-primary p-4">Stock</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {
+
+                        products.map(
+                            (item)=>{
+                                return(
+                                    <tr className="odd:bg-gray-600 even:bg-primary odd:text-white border-t-4 border-primary hover:bg-accent/45" key={item.productId}>
+                                        <td className="p-2">
+                                            <img src={item.images[0]} alt={item.name} className="w-16 h-16 object-cover rounded-full" />
+                                        </td>
+                                        <td className="text-center text-wrap p-2">{item.productId}</td>
+                                        <td className="text-center text-wrap p-2">{item.name}</td>
+                                        <td className="text-center text-wrap p-2">{item.price}</td>
+                                        <td className="text-center text-wrap p-2">{item.labelledPrice}</td>
+                                        <td className="text-center text-wrap p-2">{item.brand}</td>
+                                        <td className="text-center text-wrap p-2">{item.model}</td>
+                                        <td className="text-center text-wrap p-2">{item.category}</td>
+                                        <td className="text-center text-wrap p-2"></td>
+                                        <td className="text-center text-wrap p-2">{item.stock}</td>
+                                    </tr>
+                                )
+                            }
+                        )
+
+                    }                   
+
+                </tbody>
+
+            </table>
+
+            <Link to="/admin/add-product" 
+                className="fixed bottom-8 right-8 w-[60px] h-[60px] bg-accent flex justify-center items-center text-white text-3xl rounded-full shadow-2xl hover:bg-black hover:text-accent">
+                <FaPlus />
+            </Link>
         </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Description
-          </label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleInputChange}
-            placeholder="Enter product description"
-            rows="3"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Price *
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleInputChange}
-            placeholder="Enter price"
-            step="0.01"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Stock Quantity *
-          </label>
-          <input
-            type="number"
-            name="stock"
-            value={formData.stock}
-            onChange={handleInputChange}
-            placeholder="Enter stock quantity"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 font-bold mb-2">
-            Category
-          </label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleInputChange}
-            placeholder="Enter category"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          />
-        </div>
-
-        <div className="mb-6">
-          <label className="block text-gray-700 font-bold mb-2">
-            Product Image
-          </label>
-          <input
-            type="file"
-            onChange={handleFileChange}
-            accept="image/*"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-          />
-          {formData.image && (
-            <p className="text-sm text-gray-600 mt-2">
-              Selected: {formData.image.name}
-            </p>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition"
-        >
-          {loading ? "Adding..." : "Add Product"}
-        </button>
-      </form>
-    </div>
-  );
-}
+    )
