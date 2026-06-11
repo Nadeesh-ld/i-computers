@@ -1,35 +1,40 @@
-import { Route,Routes,Link } from "react-router-dom";
-import AdminProductPage from "./admin/adminProductPage";
+import { Link, Route, Routes } from "react-router-dom";
+import AdminProductsPage from "./admin/adminProductPage";
 import AdminAddProductPage from "./admin/adminAddProduct";
 import AdminEditProductPage from "./admin/adminEditProductPage";
+import AdminOrdersPage from "./admin/adminOrdersPage";
+
+export default function AdminPage(){
+    return(
+        <div className="w-full h-screen flex  items-center bg-accent">
+            <div className="w-[300px] h-full text-white">
+
+                {/* <h1 className="text-2xl font-bold mb-4">Using anchor tags 👇</h1>
+
+                <a href="/admin/" className="block py-2 px-4 hover:bg-gray-700">Orders</a>
+                <a href="/admin/products" className="block py-2 px-4 hover:bg-gray-700">Products</a>
+                <a href="/admin/users" className="block py-2 px-4 hover:bg-gray-700">Users</a>
+                <a href="/admin/reviews" className="block py-2 px-4 hover:bg-gray-700">Reviews</a>
+
+                <h1 className="text-2xl font-bold mb-4">Using link tags 👇</h1> */}
+                    
+                <Link to="/admin/" className="block py-2 px-4 hover:bg-gray-700">Orders</Link>
+                <Link to="/admin/products" className="block py-2 px-4 hover:bg-gray-700">Products</Link>
+                <Link to="/admin/users" className="block py-2 px-4 hover:bg-gray-700">Users</Link>
+                <Link to="/admin/reviews" className="block py-2 px-4 hover:bg-gray-700">Reviews</Link>
 
 
-
-export default function AdminPage() {  
-    return (
-        <div className="w-full h-screen flex items-center border-10 border-red-300"> 
-            <div className="w-75 h-full bg-red-300">
-               
-            <Link to="/admin" className="block w-full h-12.5 text-center leading-[50px] border-b border-gray-400">Dashoard</Link>
-                <Link to="/admin/products" className="block py-2 px-4 hover:bg-gray-200 ">Products</Link>
-                <Link to="/admin/add-product" className="block py-2 px-4 hover:bg-gray-200 ">Add Product</Link>
-                <Link to="/admin/orders" className="block py-2 px-4 hover:bg-gray-200 ">Orders</Link>
-                <Link to="/admin/users" className="block py-2 px-4 hover:bg-gray-200 ">Users</Link>
-                <Link to="/admin/reviews" className="block py-2 px-4 hover:bg-gray-200 ">Reviews</Link>
             </div>
-               
-                <div className="w-[calc(100%-300px)] h-full bg-primary rounded-2xl">
-                    <Routes>  
-                        <Route path="/" element={<h1>Admin Dashboard</h1>} />  
-                         <Route path="/products" element={<AdminProductPage />} />
-                         <Route path="/add-product" element={<AdminAddProductPage />} />
-                        <Route path="/edit-product" element ={<AdminEditProductPage/>} />
-                        <Route path="/orders" element={<h1>order Dashboard</h1>} />
-                        <Route path="/users" element={<h1>user Dashboard</h1>} />  
-                        <Route  path="/reviews" element={<h1>review Dashboard</h1>} />
-                    </Routes>
-                </div>
+            <div className="w-[calc(100%-300px)] h-full bg-primary border-[10px] border-accent rounded-2xl">
+                <Routes>
+                    <Route path="/" element ={<AdminOrdersPage/>} />
+                    <Route path="/products" element ={<AdminProductsPage/>} />
+                    <Route path="/add-product" element ={<AdminAddProductPage/>} />
+                    <Route path="/edit-product" element ={<AdminEditProductPage/>} />
+                    <Route path="/users" element ={<h1>Users Dashboard</h1>} />
+                    <Route path="/reviews" element ={<h1>Reviews Dashboard</h1>} />
+                </Routes>
+            </div>
         </div>
-      
     )
 }
