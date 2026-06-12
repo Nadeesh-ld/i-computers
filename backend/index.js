@@ -1,42 +1,36 @@
 import express from "express";
 import mongoose from "mongoose";
-import studentRouter from "./routers/studentRouter.js";
 import userRouter from "./routers/userRouter.js";
-import productRouter from "./routers/productRouter.js";
-import jwt from "jsonwebtoken"
 import authenticateUser from "./middlewares/authentication.js";
-import cors from "cors";
-import dotenv from "dotenv";
+import productRouter from "./routers/productRouter.js";
+import cors from "cors"
+import dotenv from "dotenv"
+import orderRouter from "./routers/orderRouter.js";
 
-dotenv.config();
+dotenv.config()
+
 const app = express();
 
-const mongodbURI =
-  process.env.MONGO_URI;
 
-/* MongoDB connection */
-mongoose.connect(mongodbURI)
-    .then(() => {
-        console.log("MongoDB database connected");
-    })
-    .catch((err) => {
-        console.error("MongoDB connection error:", err);
-    });
+const mongodbURI = process.env.MONGO_URI
 
-/* Middleware */
+mongoose.connect(mongodbURI).then(
+    ()=>{
+        console.log("Connected to MongoDB");
+    }
+)
 app.use(cors())
-app.use(express.json())
 
-// Logging middleware
+app.use( express.json() )
+
 app.use(authenticateUser)
 
 
-/* Routes */
-app.use("/api/students", studentRouter);
-app.use("/api/users", userRouter); 
-app.use("/api/products", productRouter); 
+app.use("/api/users",userRouter)
+app.use("/api/products",productRouter)
+app.use("/api/orders",orderRouter)
 
-/* Server */
-app.listen(3000, () => {
-    console.log("Server started on port 3000");
+
+app.listen(3000, (req,res) => {
+	console.log("Server is running on port 3000");
 });
