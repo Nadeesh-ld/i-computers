@@ -17,7 +17,7 @@ export default function Testpage() {
 
     const fileName = `${Date.now()}-${uploadFile.name}`;
 
-    const { data, error } = await supabase.storage
+    const { error } = await supabase.storage
       .from("mybucket") // <-- Change to your bucket name
       .upload(fileName, uploadFile);
 

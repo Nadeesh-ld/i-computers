@@ -29,7 +29,14 @@ export default function AdminAddProductPage(){
 
             if(token == null){
                 toast.error("You must be logged in to perform this action.");
+                setIsSaving(false);
                 window.location.href = "/login";
+                return;
+            }
+
+            if (!productId.trim() || !name.trim() || !price || !labelledPrice || !category) {
+                toast.error("Please fill product ID, name, price, labelled price, and category.");
+                setIsSaving(false);
                 return;
             }
 
@@ -45,18 +52,18 @@ export default function AdminAddProductPage(){
             const altNamesArray = altNames.split(",")
 
             const productData = {
-                productId : productId,
-                name : name,
-                altNames : altNamesArray,
-                price : price,
-                labelledPrice : labelledPrice,
-                description : description,
+                productId : productId.trim(),
+                name : name.trim(),
+                altNames : altNamesArray.map((item) => item.trim()).filter(Boolean),
+                price : Number(price),
+                labelledPrice : Number(labelledPrice),
+                description : description.trim(),
                 images : urls,
-                brand : brand,
-                model : model,
+                brand : brand.trim(),
+                model : model.trim(),
                 category : category,
                 isAvailable : isAvailable,
-                stock : stock
+                stock : Number(stock)
             }
 
 
@@ -136,6 +143,7 @@ export default function AdminAddProductPage(){
                             setCategory(e.target.value);                            
                         }                        
                     } className="border border-gray-300 rounded-md p-2 w-full">
+                        <option value="" disabled>Select category</option>
                         <option value="Laptop" >Laptop</option>
                         <option value="Mobile">Mobile</option>
                         <option value="Headphones">Headphones</option>
@@ -176,6 +184,7 @@ export default function AdminAddProductPage(){
                                 setBrand(e.target.value);                            
                             }
                         } className="border border-gray-300 rounded-md p-2 w-full  ">
+                        <option value="">Select brand</option>
                         <option value="Apple" >Apple</option>
                         <option value="Samsung">Samsung</option>
                         <option value="Sony">Sony</option>

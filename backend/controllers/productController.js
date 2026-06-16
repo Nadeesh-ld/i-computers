@@ -41,8 +41,15 @@ export async function createProduct(req, res) {
 			message: "Product created successfully.",
 		});
 	} catch (error) {
+		console.error("Error creating product:", error);
+		if (error?.name === "ValidationError") {
+			res.status(400).json({
+				message: error.message,
+			});
+			return;
+		}
 		res.status(500).json({
-			message: "Error creating product",
+			message: error?.message || "Error creating product",
 		});
 	}
 }

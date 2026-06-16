@@ -7,12 +7,12 @@ const userSchema = new mongoose.Schema({
         //same email should not be used twice make email primary key
         unique:true
     },
-    firstname :{
+    firstName :{
         type:String,
         //must have firstname
         required:true
 },
-    lastname :{
+    lastName :{
         type:String,
         //must have lastname
         required:true
@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
         //by default every user is not blocked
         default:false
     },
-    isEmailverified:{
+    isEmailVerified:{
         type:Boolean,
         required:true,
         //by default every user's email is not verified

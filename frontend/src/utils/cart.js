@@ -1,28 +1,3 @@
-const exampleCart = [
-
-    {
-        product : {
-            productId : "1234567890",
-            name : "Example Product",
-            image : "https://via.placeholder.com/150",
-            labelledPrice : 100,
-            price : 80,
-        },
-        quantity : 2
-    },{
-        product : {
-            productId : "1234567890",
-            name : "Example Product",
-            image : "https://via.placeholder.com/150",
-            labelledPrice : 100,
-            price : 80,
-        },
-        quantity : 1
-    }
-
-
-]
-
 export function getCart(){
 
     const cartString = localStorage.getItem("cart");

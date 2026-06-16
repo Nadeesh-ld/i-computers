@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { TbTrash } from "react-icons/tb";
 import { BiEdit } from "react-icons/bi";
-import toast from "react-hot-toast";
 import LoadingAnimation from "../../components/loadingAnimation";
 import ProductDeleteModal from "../../components/productDeleteModal";
 export default function AdminProductsPage(){
