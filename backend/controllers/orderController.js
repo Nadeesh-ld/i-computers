@@ -12,7 +12,7 @@ export default async function createOrder(req,res){
         return
     }
 
-    //let orderId = "ORD00000001"
+
 
     const orderData = {
         orderId : "ORD00000001",

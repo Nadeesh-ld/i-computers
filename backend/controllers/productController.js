@@ -2,12 +2,12 @@ import Product from "../models/product.js";
 import { isAdmin } from "./userController.js";
 
 export async function createProduct(req, res) {
-	if (!isAdmin(req)) {
-		res.status(403).json({
-			message: "Access denied. Admins only.",
-		});
-		return;
-	}
+	// if (!isAdmin(req)) {
+	// 	res.status(403).json({
+	// 		message: "Access denied. Admins only.",
+	// 	});
+	// 	return;
+	// }
 
 	try {
 		const existingProduct = await Product.findOne({
@@ -41,15 +41,8 @@ export async function createProduct(req, res) {
 			message: "Product created successfully.",
 		});
 	} catch (error) {
-		console.error("Error creating product:", error);
-		if (error?.name === "ValidationError") {
-			res.status(400).json({
-				message: error.message,
-			});
-			return;
-		}
 		res.status(500).json({
-			message: error?.message || "Error creating product",
+			message: "Error creating product",
 		});
 	}
 }
@@ -159,4 +152,30 @@ export async function getProductById(req,res){
             message: "Error fetching product",
         });
     }
+}
+
+export async function searchProducts(req,res){
+
+    try{
+
+        const query = req.params.query;
+
+        const products = await Product.find(
+            {
+                $or : [
+                    { name : {$regex : query , $options: "i"}},
+                    {description : {$regex : query , $options : "i"}},
+                    {altNames : { $elemMatch : {$regex : query, $options : "i"} }}
+                ]
+            }
+        )
+
+        res.json(products);
+
+    }catch(error){
+        res.status(500).json({
+            message: "Error searching products",
+        });
+    }
+
 }
